@@ -5,7 +5,7 @@ resource "null_resource" "Webserver1HTTPD" { # Recurso nulo
     connection {
       type        = "ssh" # Tipo de conexión
       user        = "opc" # Usuario
-      host        = data.oci_core_vnic.Webserver1_VNIC1.vnic.public_ip # IP pública
+      host        = data.oci_core_vnic.Webserver1_VNIC1.public_ip_address # IP pública
       private_key = tls_private_key.public_private_key_pair.private_key_pem # Clave privada
       script_path = "/home/opc/myssh.sh" # Ruta del script
       agent       = false # Agente

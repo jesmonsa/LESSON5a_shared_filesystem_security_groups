@@ -1,7 +1,8 @@
 # WebServer Instance Public IP
 output "Webserver1PublicIP" {
-  value = [data.oci_core_vnic.Webserver1_VNIC1.vnic.public_ip]
+  value = oci_core_instance.WebServer1.public_ip
 }
+
 
 # Generated Private Key for WebServer Instance
 output "generated_ssh_private_key" {
