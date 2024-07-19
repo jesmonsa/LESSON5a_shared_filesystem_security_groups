@@ -1,8 +1,8 @@
 resource "oci_core_virtual_network" "VCN_Prod01" {
   cidr_block     = var.VCN-CIDR
-  dns_label      = "VCN-Prod01"
+  dns_label      = "VCNProd01"
   compartment_id = oci_identity_compartment.Prod_01.id
-  display_name   = "VCN-Prod01"
+  display_name   = "VCNProd01"
 }
 
 # DHCP Options
