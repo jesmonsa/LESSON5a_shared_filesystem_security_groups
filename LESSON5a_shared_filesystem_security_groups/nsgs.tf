@@ -1,13 +1,13 @@
 # Web NSG
-resource "oci_core_network_security_group" "FoggyKitchenWebSecurityGroup" {
-  compartment_id = oci_identity_compartment.FoggyKitchenCompartment.id
-  display_name   = "FoggyKitchenWebSecurityGroup"
-  vcn_id         = oci_core_virtual_network.FoggyKitchenVCN.id
+resource "oci_core_network_security_group" "WebSecurityGroup" {
+  compartment_id = oci_identity_compartment.Prod01.id
+  display_name   = "WebSecurityGroup"
+  vcn_id         = oci_core_virtual_network.VCN_Prod01.id
 }
 
 # Web NSG Egress Rules
-resource "oci_core_network_security_group_security_rule" "FoggyKitchenWebSecurityEgressGroupRule" {
-  network_security_group_id = oci_core_network_security_group.FoggyKitchenWebSecurityGroup.id
+resource "oci_core_network_security_group_security_rule" "WebSecurityEgressGroupRule" {
+  network_security_group_id = oci_core_network_security_group.WebSecurityGroup.id
   direction                 = "EGRESS"
   protocol                  = "6"
   destination               = "0.0.0.0/0"
@@ -15,10 +15,10 @@ resource "oci_core_network_security_group_security_rule" "FoggyKitchenWebSecurit
 }
 
 # Web NSG Ingress Rules
-resource "oci_core_network_security_group_security_rule" "FoggyKitchenWebSecurityIngressGroupRules" {
+resource "oci_core_network_security_group_security_rule" "WebSecurityIngressGroupRules" {
   for_each = toset(var.webservice_ports)
 
-  network_security_group_id = oci_core_network_security_group.FoggyKitchenWebSecurityGroup.id
+  network_security_group_id = oci_core_network_security_group.WebSecurityGroup.id
   direction                 = "INGRESS"
   protocol                  = "6"
   source                    = "0.0.0.0/0"
@@ -32,15 +32,15 @@ resource "oci_core_network_security_group_security_rule" "FoggyKitchenWebSecurit
 }
 
 # SSH NSG
-resource "oci_core_network_security_group" "FoggyKitchenSSHSecurityGroup" {
-  compartment_id = oci_identity_compartment.FoggyKitchenCompartment.id
-  display_name   = "FoggyKitchenSSHSecurityGroup"
-  vcn_id         = oci_core_virtual_network.FoggyKitchenVCN.id
+resource "oci_core_network_security_group" "SSHSecurityGroup" {
+  compartment_id = oci_identity_compartment.Prod01.id
+  display_name   = "SSHSecurityGroup"
+  vcn_id         = oci_core_virtual_network.VCN_Prod01.id
 }
 
 # SSH NSG Egress Rules
-resource "oci_core_network_security_group_security_rule" "FoggyKitchenSSHSecurityEgressGroupRule" {
-  network_security_group_id = oci_core_network_security_group.FoggyKitchenSSHSecurityGroup.id
+resource "oci_core_network_security_group_security_rule" "SSHSecurityEgressGroupRule" {
+  network_security_group_id = oci_core_network_security_group.SSHSecurityGroup.id
   direction                 = "EGRESS"
   protocol                  = "6"
   destination               = "0.0.0.0/0"
@@ -48,10 +48,10 @@ resource "oci_core_network_security_group_security_rule" "FoggyKitchenSSHSecurit
 }
 
 # SSH NSG Ingress Rules
-resource "oci_core_network_security_group_security_rule" "FoggyKitchenSSHSecurityIngressGroupRules" {
+resource "oci_core_network_security_group_security_rule" "SSHSecurityIngressGroupRules" {
   for_each = toset(var.bastion_ports)
 
-  network_security_group_id = oci_core_network_security_group.FoggyKitchenSSHSecurityGroup.id
+  network_security_group_id = oci_core_network_security_group.SSHSecurityGroup.id
   direction                 = "INGRESS"
   protocol                  = "6"
   source                    = "0.0.0.0/0"
@@ -65,17 +65,17 @@ resource "oci_core_network_security_group_security_rule" "FoggyKitchenSSHSecurit
 }
 
 # FSS NSG
-resource "oci_core_network_security_group" "FoggyKitchenFSSSecurityGroup" {
-  compartment_id = oci_identity_compartment.FoggyKitchenCompartment.id
-  display_name   = "FoggyKitchenFSSSecurityGroup"
-  vcn_id         = oci_core_virtual_network.FoggyKitchenVCN.id
+resource "oci_core_network_security_group" "FSSSecurityGroup" {
+  compartment_id = oci_identity_compartment.Prod01.id
+  display_name   = "FSSSecurityGroup"
+  vcn_id         = oci_core_virtual_network.VCN_Prod01.id
 }
 
 # FSS NSG Ingress TCP Rules
-resource "oci_core_network_security_group_security_rule" "FoggyKitchenFSSSecurityIngressTCPGroupRules" {
+resource "oci_core_network_security_group_security_rule" "FSSSecurityIngressTCPGroupRules" {
   for_each = toset(var.fss_ingress_tcp_ports)
 
-  network_security_group_id = oci_core_network_security_group.FoggyKitchenFSSSecurityGroup.id
+  network_security_group_id = oci_core_network_security_group.FSSSecurityGroup.id
   direction                 = "INGRESS"
   protocol                  = "6"
   source                    = var.WebSubnet-CIDR
@@ -89,10 +89,10 @@ resource "oci_core_network_security_group_security_rule" "FoggyKitchenFSSSecurit
 }
 
 # FSS NSG Ingress UDP Rules
-resource "oci_core_network_security_group_security_rule" "FoggyKitchenFSSSecurityIngressUDPGroupRules" {
+resource "oci_core_network_security_group_security_rule" "FSSSecurityIngressUDPGroupRules" {
   for_each = toset(var.fss_ingress_udp_ports)
 
-  network_security_group_id = oci_core_network_security_group.FoggyKitchenFSSSecurityGroup.id
+  network_security_group_id = oci_core_network_security_group.FSSSecurityGroup.id
   direction                 = "INGRESS"
   protocol                  = "17"
   source                    = var.WebSubnet-CIDR
@@ -106,10 +106,10 @@ resource "oci_core_network_security_group_security_rule" "FoggyKitchenFSSSecurit
 }
 
 # FSS NSG Egress TCP Rules
-resource "oci_core_network_security_group_security_rule" "FoggyKitchenFSSSecurityEgressTCPGroupRules" {
+resource "oci_core_network_security_group_security_rule" "FSSSecurityEgressTCPGroupRules" {
   for_each = toset(var.fss_egress_tcp_ports)
 
-  network_security_group_id = oci_core_network_security_group.FoggyKitchenFSSSecurityGroup.id
+  network_security_group_id = oci_core_network_security_group.FSSSecurityGroup.id
   direction                 = "EGRESS"
   protocol                  = "6"
   destination               = var.WebSubnet-CIDR
@@ -123,10 +123,10 @@ resource "oci_core_network_security_group_security_rule" "FoggyKitchenFSSSecurit
 }
 
 # FSS NSG Egress UDP Rules
-resource "oci_core_network_security_group_security_rule" "FoggyKitchenFSSSecurityEgressUDPGroupRules" {
+resource "oci_core_network_security_group_security_rule" "FSSSecurityEgressUDPGroupRules" {
   for_each = toset(var.fss_egress_udp_ports)
 
-  network_security_group_id = oci_core_network_security_group.FoggyKitchenFSSSecurityGroup.id
+  network_security_group_id = oci_core_network_security_group.FSSSecurityGroup.id
   direction                 = "EGRESS"
   protocol                  = "17"
   destination               = var.WebSubnet-CIDR
