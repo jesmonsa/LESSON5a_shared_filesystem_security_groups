@@ -1,6 +1,6 @@
 # Web NSG
 resource "oci_core_network_security_group" "WebSecurityGroup" {
-  compartment_id = oci_identity_compartment.Prod01.id
+  compartment_id = oci_identity_compartment.Prod_01.id
   display_name   = "WebSecurityGroup"
   vcn_id         = oci_core_virtual_network.VCN_Prod01.id
 }
@@ -33,7 +33,7 @@ resource "oci_core_network_security_group_security_rule" "WebSecurityIngressGrou
 
 # SSH NSG
 resource "oci_core_network_security_group" "SSHSecurityGroup" {
-  compartment_id = oci_identity_compartment.Prod01.id
+  compartment_id = oci_identity_compartment.Prod_01.id
   display_name   = "SSHSecurityGroup"
   vcn_id         = oci_core_virtual_network.VCN_Prod01.id
 }
@@ -66,7 +66,7 @@ resource "oci_core_network_security_group_security_rule" "SSHSecurityIngressGrou
 
 # FSS NSG
 resource "oci_core_network_security_group" "FSSSecurityGroup" {
-  compartment_id = oci_identity_compartment.Prod01.id
+  compartment_id = oci_identity_compartment.Prod_01.id
   display_name   = "FSSSecurityGroup"
   vcn_id         = oci_core_virtual_network.VCN_Prod01.id
 }
