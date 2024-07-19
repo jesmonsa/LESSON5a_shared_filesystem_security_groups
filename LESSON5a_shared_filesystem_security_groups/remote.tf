@@ -109,7 +109,7 @@ resource "null_resource" "Webserver2HTTPD" {
     connection {
       type                = "ssh"
       user                = "opc"
-      host                = data.oci_core_vnic.Webserver1_VNIC1.private_ip_address
+      host                = data.oci_core_vnic.Webserver2_VNIC1.private_ip_address
       private_key         = tls_private_key.public_private_key_pair.private_key_pem
       script_path         = "/home/opc/myssh.sh"
       agent               = false
